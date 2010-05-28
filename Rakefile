@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "aql_sms_api"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A ruby wrapper for the AQL SMS API.}
+    gem.description = %Q{A ruby wrapper for the AQL SMS API.}
     gem.email = "aaron@gc4.co.uk"
     gem.homepage = "http://github.com/aaronrussell/aql_sms_api"
     gem.authors = ["Aaron Russell"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_dependenct "httparty", ">= 0.5.2"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

@@ -6,7 +6,6 @@ module AQL
     
     include HTTParty
     base_uri "https://gw.aql.com/sms/"
-    debug_output $stderr
     
     def self.authenticate(user = nil, pass = nil, orig = nil)
       @auth = {:username => user, :password => pass, :originator => orig}
