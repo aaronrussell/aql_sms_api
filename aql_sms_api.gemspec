@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "README.md",
      "Rakefile",
      "VERSION",
+     "aql_sms_api.gemspec",
      "lib/aql_sms_api.rb",
      "test/helper.rb",
      "test/test_aql_sms_api.rb"
