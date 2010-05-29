@@ -7,20 +7,18 @@ module AQL
     include HTTParty
     base_uri "https://gw.aql.com/sms/"
     
-    def self.authenticate(user = nil, pass = nil, orig = nil)
-      @auth = {:username => user, :password => pass, :originator => orig}
+    def self.authenticate(opts)
+      default_params opts
     end
-    
-    authenticate
         
     def self.check_credit
-      res = get "/postmsg.php", :query => @auth.merge(:cmd => "credit")
+      res = get "/postmsg.php", :query => {:cmd => "credit"}
       valid?(res) ? (res == "AQSMS-AUTHERROR" ? false : res.match(/\=(\d+)/)[1]).to_i : res
     end
     
     def self.send_message(dests = [], msg = "", opts = {})
       numbers = dests.collect{|n| format_number(n)}.join(",")
-      res = get "/sms_gw.php", :query => @auth.merge(:destination => numbers, :message => msg).merge(opts)
+      res = get "/sms_gw.php", :query => opts.merge(:destination => numbers, :message => msg)
       valid?(res) ? SMSResponse.new(res) : res
     end
     
@@ -45,6 +43,25 @@ module AQL
       @code = parts[1]
       @credits = parts[2]
       @message = parts[3].strip
+    end
+    
+  end
+  
+  class SMSDeliveryReport
+    
+    attr_reader :code, :message, :destination
+    
+    def initialize(params)
+      @code         = params[:reportcode].to_s
+      @destination  = params[:destinationnumber].to_s
+      @message      = case @code
+        when "1" then "Delivered to Handset"
+        when "2" then "Rejected from Handset"
+        when "4" then "Buffered in transit (phone probably off / out of reception)"
+        when "8" then "Accepted by SMSC"
+        when "16" then "Rejected by SMSC"
+        else "Unknown response code"
+      end
     end
     
   end

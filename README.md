@@ -6,9 +6,11 @@ A ruby wrapper for the AQL SMS API. I am building this for use in a specific pro
 
 #### Authentication
 
-    # @params username, password [, originator]
+    # @params hash default_params
+    #   must include :username and :password but can also contain
+    #   other default params such as :originator
     #
-    AQL::SMS.authenticate "username", "password"
+    AQL::SMS.authenticate :username => "username", :password => "password"
 
 #### Check credit
 
